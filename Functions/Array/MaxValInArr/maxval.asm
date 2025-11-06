@@ -14,9 +14,34 @@ section .text
 maxval:
     push ebp
     mov ebp, esp
+    mov edx, [ebp + 8]
+    xor ecx, ecx
+    xor eax, eax
+checkval:
+    cmp ecx, 10
+    je fini
+    cmp eax, [edx + ecx * 4]
+    jl changeval
+    inc ecx
+    jmp checkval
+
+changeval:
+    mov eax, [edx + ecx * 4]
+    inc ecx
+    jmp checkval
     
+fini:
+    mov esp, ebp
+    pop ebp
+    ret
 
+main:
+    push arr
+    call maxval
+    add esp, 4
 
-
-
-
+    push eax
+    push strAns
+    call printf
+    add esp, 8
+    ret
