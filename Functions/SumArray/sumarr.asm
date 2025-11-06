@@ -20,21 +20,30 @@ section .text
     extern scanf
     extern malloc
 
-;addsum:
-;    push ebp
-;    mov ebp, esp
-;    xor eax, eax
-;    xor ecx, ecx
-;        test:
-;            cmp ecx, dword [valN]
-;            je fini
-;            add eax, [ptrarr + ecx * 4]
-;            inc ecx
-;            jmp test 
-;    mov esp, ebp
-;    pop ebp
-;    ret
+addsum:
+    push ebp
+    mov ebp, esp
+    xor eax, eax
+    xor ecx, ecx
+    jmp test
+    mov esp, ebp
+    pop ebp
+    ret
     
+fini:
+    push eax
+    push strSum
+    call printf
+    add esp, 8
+    mov esp, ebp
+    pop ebp
+    ret
+test:
+    cmp ecx, dword [valN]
+    je fini
+    add eax, [ptrarr + ecx * 4]
+    inc ecx
+    jmp test 
 main:
     push strI
     call printf
@@ -89,12 +98,6 @@ main:
         ;push ptrarr
         ;call addsum
         ;add esp, 8
-     fini:
-        
-        push eax
-        push strSum
-        call printf
-        add esp, 8
     
         ;mov esp, ebp
         ;pop ebp
